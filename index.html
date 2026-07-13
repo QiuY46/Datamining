@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-width=1.0">
+    <title>DataMining Edu | 数据挖掘(双语)智慧课程</title>
+    <style>
+        :root {
+            --primary-color: #0f172a; /* Darker tech blue */
+            --secondary-color: #3b82f6; /* Bright blue */
+            --accent-color: #10b981; /* Emerald green for data theme */
+            --bg-color: #f8fafc;
+            --text-color: #334155;
+            --light-text: #64748b;
+            --white: #ffffff;
+            --section-bg: #ffffff;
+            --alt-bg: #f1f5f9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 0.5px;
+        }
+        
+        .logo-en {
+            color: var(--secondary-color);
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: 800;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(15,23,42,0.92) 0%, rgba(59,130,246,0.85) 100%), url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=2000') center/cover fixed;
+            color: var(--white);
+            padding: 180px 5% 120px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Simulated Data Nodes in Hero Background */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(circle at 20% 30%, rgba(16, 185, 129, 0.15) 0%, transparent 10%),
+                              radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.15) 0%, transparent 10%);
+            background-size: 100px 100px;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+        }
+
+        .url-mockup {
+            font-family: 'Courier New', Courier, monospace;
+            background: rgba(0,0,0,0.3);
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            color: #6ee7b7;
+            border: 1px dashed rgba(110, 231, 183, 0.4);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 900px;
+            margin: 0 auto 2.5rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .badge-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .badge {
+            background-color: rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .badge:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 5%;
+        }
+
+        section:nth-child(even) {
+            background-color: var(--section-bg);
+        }
+        
+        section:nth-child(odd) {
+            background-color: var(--alt-bg);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.4rem;
+            color: var(--primary-color);
+            margin-bottom: 4rem;
+            position: relative;
+            font-weight: 800;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        /* Grid Layouts */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2.5rem;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            border-top: 4px solid var(--secondary-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '</>';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 8rem;
+            font-weight: bold;
+            font-family: monospace;
+            color: rgba(0,0,0,0.02);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.2rem;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .card p, .card ul {
+            position: relative;
+            z-index: 1;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .tag-danger {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+
+        /* Timeline CSS */
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--secondary-color);
+            top: 0;
+            bottom: 0;
+            left: 50px;
+            border-radius: 2px;
+            opacity: 0.2;
+        }
+
+        .timeline-item {
+            padding: 10px 0 40px 90px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background-color: var(--white);
+            border: 4px solid var(--accent-color);
+            border-radius: 50%;
+            left: 40px;
+            top: 15px;
+            z-index: 1;
+            transition: all 0.3s;
+        }
+        
+        .timeline-item:hover::before {
+            background-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .timeline-content {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            border-left: 4px solid transparent;
+            transition: border-color 0.3s;
+        }
+        
+        .timeline-item:hover .timeline-content {
+            border-left-color: var(--secondary-color);
+        }
+
+        .timeline-content h4 {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-date {
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: inline-block;
+            font-family: 'Courier New', Courier, monospace;
+            background: #ecfdf5;
+            padding: 0.2rem 0.8rem;
+            border-radius: 4px;
+        }
+
+        /* Team styling */
+        .team-member {
+            background: var(--white);
+            padding: 2.5rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+        
+        .team-member:hover {
+            border-color: var(--secondary-color);
+            transform: translateY(-5px);
+        }
+
+        .team-member h3 {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .role {
+            color: var(--secondary-color);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Lists */
+        ul.custom-list {
+            list-style: none;
+        }
+        ul.custom-list li {
+            position: relative;
+            padding-left: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        ul.custom-list li::before {
+            content: '{...}';
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+            font-family: monospace;
+            font-weight: bold;
+            font-size: 0.8rem;
+            top: 4px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-align: center;
+            padding: 4rem 5% 2rem;
+            border-top: 5px solid var(--accent-color);
+        }
+        
+        footer p {
+            margin-bottom: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        .footer-url {
+            font-family: monospace;
+            font-size: 1.2rem;
+            color: #6ee7b7;
+            margin-bottom: 1.5rem !important;
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+            .timeline::after { left: 20px; }
+            .timeline-item { padding-left: 50px; }
+            .timeline-item::before { left: 8px; }
+            .url-mockup { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">
+            <span class="logo-en">{ DataMining }</span>
+            <span>数据挖掘智慧课程</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">首页 / Home</a></li>
+            <li><a href="#about">课程定位 / Course</a></li>
+            <li><a href="#innovation">教学创新 / Innovation</a></li>
+            <li><a href="#achievements">教研成果 / Results</a></li>
+            <li><a href="#plan">规划进度 / Plan</a></li>
+        </ul>
+    </nav>
+
+    <header id="home" class="hero">
+        <div class="hero-content">
+            <h1>数据挖掘 (双语)</h1>
+            <p>基于大语言模型与知识图谱，破壁启智·筑桥达用，构建“教师主导-AI协同-学生主用”的新型智慧教学生态。</p>
+            <div class="badge-container">
+                <span class="badge">管理科学与工程学院</span>
+                <span class="badge">南京财经大学</span>
+                <span class="badge">3学分 / 51学时</span>
+                <span class="badge">超星MOOC & 雨课堂</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 课程发展历程 -->
+    <section id="about">
+        <h2 class="section-title">课程建设历程与定位</h2>
+        <div class="grid-2">
+            <div class="card">
+                <h3>课程培养目标 (KAEP体系)</h3>
+                <p style="margin-bottom: 1rem;">课程围绕“AI时代创新型商业分析人才”核心定位，构建三维递进式目标：</p>
+                <ul class="custom-list">
+                    <li><strong>知识目标 (Knowledge)：</strong>系统掌握分类、聚类、关联规则等算法机制，理解AI技术的边界与伦理。</li>
+                    <li><strong>能力目标 (Apply/Experiment)：</strong>贯穿数据清洗-特征工程-模型开发-决策优化的全流程实践，提升中英文学术沟通力。</li>
+                    <li><strong>素养目标 (Progress)：</strong>融入数据伦理意识、系统思维，塑造具备社会责任感与商业洞察力的人才。</li>
+                </ul>
+            </div>
+            <div class="card" style="border-top-color: var(--accent-color)">
+                <h3>建设发展三阶段</h3>
+                <ul class="custom-list">
+                    <li><strong>初创探索期 (2016-2018)：</strong> 确立理论认知为主导的基础框架，夯实理论教学基础。</li>
+                    <li><strong>双语转型期 (2019-2021)：</strong> 全面推进双语数字化资源库建设，搭建线上线下混合式教学平台，初步形成校企协同。</li>
+                    <li><strong>创新融合期 (2022-至今)：</strong> 将AI技术（如大语言模型）深度融入教、学、评全链路，提出并实践“AI赋能的三层递进式教学模式”。</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 教学创新与痛点解决 -->
+    <section id="innovation">
+        <h2 class="section-title">核心痛点与AI深度赋能创新</h2>
+        <div class="grid-3">
+            <div class="card">
+                <span class="tag tag-danger">Bug 01: 算法认知困难</span>
+                <h3>1. AI增强的认知可视化</h3>
+                <p><strong>Debug方案：</strong>依托大模型拆解核心算法（如支持向量机、神经网络），自动生成包含80+节点的结构化课程知识图谱。实施“算法解剖式教学”，降低工作记忆负荷，实现从“知其然”到“知其所以然”的跃升。</p>
+            </div>
+            <div class="card">
+                <span class="tag tag-danger">Bug 02: 双语"认知双负荷"</span>
+                <h3>2. AI驱动的自适应双语生态</h3>
+                <p><strong>Debug方案：</strong>开发专属双语教学智能体。提供AI实时专业术语转换、概念澄清与全天候答疑。系统精准推送资源包，降低语言切换带来的思维损耗，显著提升学生在英文学术语境下的自信心与表达力。</p>
+            </div>
+            <div class="card">
+                <span class="tag tag-danger">Bug 03: 实践转化鸿沟</span>
+                <h3>3. 决策导向的企业项目实战</h3>
+                <p><strong>Debug方案：</strong>构建全流程AI实操环境。将AI代码助手嵌入IDE环境提供语法纠错与参数建议。结合银行信用风险预测、海上风电等真实脱敏数据集，完成从“技术实现”到“商业洞察报告”的产教融合闭环。</p>
+            </div>
+            <div class="card" style="grid-column: 1 / -1; border-top-color: #10b981;">
+                <h3 style="color: #047857;">⭐ 课程思政创新：融入AI伦理与社会责任</h3>
+                <p>引入“AI助力公益”实践项目，聚焦数据隐私、算法歧视与AIGC版权等真实案例。通过辩论与比较研究中国特色数据治理模式，在传授硬核技术的同时，厚植学生的社会责任感与数据伦理底线。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 建设基础与教研成果 -->
+    <section id="achievements">
+        <h2 class="section-title">前期建设基础与预期成果</h2>
+        <div class="grid-2">
+            <div class="card">
+                <h3>前期教改与科研支撑</h3>
+                <ul class="custom-list">
+                    <li><strong>精品教材：</strong>主编《数据挖掘与管理决策(双语版)》（北京大学出版社, 2022），入选校级重点教材，被多所高校采纳应用。</li>
+                    <li><strong>省级教改：</strong>承担江苏省教改课题《大语言模型在人工智能通识教育中的应用研究》（2025在研）。</li>
+                    <li><strong>部级项目：</strong>主持教育部产学合作协同育人项目3项（涵盖数据挖掘示范课程建设、统计学改革、云管理实验室，均已结题）。</li>
+                    <li><strong>教学荣誉：</strong>连续斩获第五届(2024)、第六届(2025)全国高校教师教学创新大赛校级二等奖。</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>智慧课程预期产出</h3>
+                <ul class="custom-list">
+                    <li><strong>核心工具系统：</strong>建成包含80+个知识点的算法知识图谱；封装1个贯穿课前/中/后的专属AI双语教学智能体。</li>
+                    <li><strong>数字化评价体系：</strong>上线基于五维雷达图的“学生动态能力画像模型”，全方位追踪学习轨迹。</li>
+                    <li><strong>产教融合成果：</strong>开发多个附带完整数据集与AI操作指南的数智化企业实战案例库。</li>
+                    <li><strong>学生赋能成效：</strong>支撑学生在“华为杯”数学建模、“建行杯”创新大赛等竞赛中获奖，转化多篇核心期刊论文及优秀毕业设计。</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 建设进度规划 -->
+    <section id="plan">
+        <h2 class="section-title">项目建设进度规划 (2026-2027)</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="timeline-date">Phase 1: 2026.07 - 2026.08</span>
+                    <h4>筹备建设与数字基座部署</h4>
+                    <p>依托大语言模型生成包含至少80个节点的结构化知识图谱；完成双语视频、术语库等离散资源的精准映射关联；接入AI代码助手API，开发专属双语教学智能体初版，并导入真实业务场景案例。</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="timeline-date">Phase 2: 2026.09 - 2026.10</span>
+                    <h4>教学实施与动态学情监测</h4>
+                    <p>正式推行“知识解构-代码实现-项目实践”三层递进教学；引入AI智能体辅助双语释疑；采集多维交互数据生成全员雷达图能力画像，并对双语负荷过载学生实施个性化教学干预。</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="timeline-date">Phase 3: 2026.11</span>
+                    <h4>认定验收与经验总结</h4>
+                    <p>组织期末决策项目答辩，检验AI辅助下的业务决策综合应用能力；生成终期雷达图画像量化成效对比；配合学校提交知识图谱、智能工具应用效果等智慧课程认定验收材料。</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="timeline-date">Phase 4: 2026.12 - 2027.03</span>
+                    <h4>持续迭代与深化拓展</h4>
+                    <p>根据专家反馈优化知识图谱与智能体；推动期末实战项目向高水平学科竞赛、优秀毕业设计及期刊论文转化；提炼智慧教学新范式教改论文，筹备申报省级/国家级智慧课程。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 课程团队 -->
+    <section id="team">
+        <h2 class="section-title">课程建设团队</h2>
+        <div class="grid-3" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+            <div class="team-member">
+                <h3>陈欣</h3>
+                <div class="role">教授 / 课程负责人</div>
+                <p>全面负责课程总体设计与统筹规划</p>
+            </div>
+            <div class="team-member">
+                <h3>田晨</h3>
+                <div class="role">副教授 / 核心成员</div>
+                <p>主导知识图谱构建与AI工具技术落地</p>
+            </div>
+            <div class="team-member">
+                <h3>李文丽</h3>
+                <div class="role">讲师 / 核心成员</div>
+                <p>负责教学资源关联映射与学情数据分析</p>
+            </div>
+            <div class="team-member">
+                <h3>杨佳音</h3>
+                <div class="role">研究生 / 团队成员</div>
+                <p>协助产教融合案例开发与企业端联络</p>
+            </div>
+            <div class="team-member">
+                <h3>包锦琰</h3>
+                <div class="role">研究生 / 团队成员</div>
+                <p>协助产教融合案例开发与企业端联络</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-url">course.nufe.edu.cn/data-mining</div>
+        <p>&copy; 2026 南京财经大学 管理科学与工程学院 - 《数据挖掘(双语)》智慧课程培育项目</p>
+        <p style="font-size: 0.85rem; margin-top: 5px;">基于 "AI+赋能式深度学习" 理念开发设计</p>
+        <p style="font-size: 0.75rem; margin-top: 15px; opacity: 0.5;">* 本页面内容严禁包含任何敏感隐私信息，仅供内部项目申报及成果展示参考</p>
+    </footer>
+
+</body>
+</html>
